@@ -1,18 +1,47 @@
 // Türettiğimiz Buton sınıflarının klonlarını alabilmemizi sağlana 
 // interface sınıfımız
-interface ButtonPrototype {
-    clone(): ButtonPrototype;
+
+interface IButtonPrototype {
+    clone(): IButtonPrototype;
     kendiniTanimla(): void;
     fiyatDon(): number;
-    
     fiyat: number;
     en: number;
     boy: number;
     renk: string;
 }
 
+class ButtonPrototype implements IButtonPrototype {
+
+    fiyat: number;
+    en: number;
+    boy: number;
+    renk: string;
+
+    clone() : IButtonPrototype{
+        let a = new ButtonPrototype();
+        a.fiyat = this.fiyat;
+        a.en = this.en;
+        a.boy = this.boy;
+        a.renk = this.renk;
+        return a;
+    };
+
+    kendiniTanimla(): void {
+        console.log('Ben ' + this.en + 'x' + this.boy + ' boyutlarında ' + this.renk + ' renkli bir butonum.' + 
+        ' Fiyatım: ' + this.fiyat + ' TL');
+    }
+    
+    fiyatDon(): number {
+        return this.fiyat;
+    }
+    
+    
+}
+
 // Buton sınıfımız
-class Button implements ButtonPrototype {
+class Button extends ButtonPrototype {
+    
     fiyat: number;
     en: number;
     boy: number;
@@ -31,34 +60,19 @@ class Button implements ButtonPrototype {
     setRenk(renk_: string): void {
         this.renk = renk_;
     }
-
-    clone(): ButtonPrototype {
-        let a = new Button();
-        a.setFiyat(this.fiyat);
-        a.setBoyut(this.en, this.boy);
-        a.setRenk(this.renk);
-        return a;
-    }
     
-    kendiniTanimla(): void {
-        console.log('Ben ' + this.en + 'x' + this.boy + ' boyutlarında ' + this.renk + ' renkli bir butonum.' + 
-        ' Fiyatım: ' + this.fiyat + ' TL');
-    }
     
-    fiyatDon(): number {
-        return this.fiyat;
-    }
 }
 
 // Buton sınıfımızın klonlarını tutacağımız sınıfımız
 class ButonKatalog{
-    private butonlar: ButtonPrototype[] = [];
+    private butonlar: IButtonPrototype[] = [];
     
-    butonEkle(buton: ButtonPrototype): void {
+    butonEkle(buton: IButtonPrototype): void {
         this.butonlar.push(buton);
     }
     
-    butonListesiDon(): ButtonPrototype[] {
+    butonListesiDon(): IButtonPrototype[] {
         return this.butonlar;
     }
 }
